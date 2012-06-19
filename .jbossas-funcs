@@ -1,6 +1,6 @@
 export VERSION_72=jboss-as-7.2.0.Alpha1-SNAPSHOT
 export VERSION_71=jboss-as-7.1.3.Final-SNAPSHOT
-export WORKSPACE="$WORKSPACE"
+export WORKSPACE="$HOME/workspace"
 alias "7.1=cd $WORKSPACE/jboss-as/ && git checkout 7.1 && export JBOSS_HOME=$WORKSPACE/jboss-as/build/target/$VERSION_71 && resetup"
 alias "7.2=cd $WORKSPACE/jboss-as/ && git checkout master && export JBOSS_HOME=$WORKSPACE/jboss-as/build/target/$VERSION_72 && resetup"  
 
@@ -37,7 +37,7 @@ pull() {
 
   git_branch=$(git branch 2>/dev/null| sed -n '/^\*/s/^\* //p')  
 
-  ref=`curl http://github.com/api/v2/json/pulls/jbossas/jboss-as/$1 | perl -MData::Dumper -MJSON=from_json -ne'$a=from_json($_); print $$a{pull}{base}{ref}'`
+  ref=`curl https://api.github.com/repos/jbossas/jboss-as/pulls/$1 | perl -MData::Dumper -MJSON=from_json -ne'$a=from_json($_); print $$a{pull}{base}{ref}'`
   if [[ $ref != $git_branch ]]; then
      echo "Pull request targetted at $ref but you are currently on $git_branch"
      return;
