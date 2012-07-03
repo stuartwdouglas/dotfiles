@@ -37,7 +37,7 @@ pull() {
 
   git_branch=$(git branch 2>/dev/null| sed -n '/^\*/s/^\* //p')  
 
-  ref=`curl https://api.github.com/repos/jbossas/jboss-as/pulls/2524 | tr -d '\n' | perl -MData::Dumper -MJSON=from_json -ne'$a=from_json($_); print  $$a{base}{ref}'`
+  ref=`curl https://api.github.com/repos/jbossas/jboss-as/pulls/$1 | tr -d '\n' | perl -MData::Dumper -MJSON=from_json -ne'$a=from_json($_); print  $$a{base}{ref}'`
   if [[ $ref != $git_branch ]]; then
      echo "Pull request targetted at $ref but you are currently on $git_branch"
      return;
